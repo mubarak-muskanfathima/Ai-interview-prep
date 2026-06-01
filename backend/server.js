@@ -11,13 +11,13 @@ const interviewRoutes = require(
 const aiRoutes = require(
   "./routes/aiRoutes"
 );
+const evaluationRoutes =
+  require("./routes/evaluationRoutes");
 dotenv.config();
 
 
 console.log("ENV CHECK:");
-console.log(process.env.MONGO_URI);
-console.log(process.env.JWT_SECRET);
-console.log(process.env.GEMINI_API_KEY);
+console.log(`Server running on port ${PORT}`);
 connectDB();
 
 const app = express();
@@ -28,6 +28,10 @@ app.use("/api/auth", authRoutes);
 app.use(
   "/api/interviews",
   interviewRoutes
+);
+app.use(
+  "/api/evaluation",
+  evaluationRoutes
 );
 app.get("/", (req, res) => {
   res.send("AI Interview Prep API Running");

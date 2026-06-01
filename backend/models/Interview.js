@@ -11,11 +11,17 @@ const interviewSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    feedback: {
+  type: String,
+},
 
     score: {
       type: Number,
       default: 0,
     },
+    feedback: {
+  type: String,
+},
 
     questions: [String],
 

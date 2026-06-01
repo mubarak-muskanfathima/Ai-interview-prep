@@ -3,19 +3,21 @@ const Interview = require("../models/Interview");
 const saveInterview = async (req, res) => {
   try {
     const {
-      user,
-      category,
-      questions,
-      answers,
-    } = req.body;
-
+  user,
+  category,
+  questions,
+  answers,
+  feedback,
+  score,
+} = req.body;
     const interview = await Interview.create({
-      user,
-      category,
-      questions,
-      answers,
-    });
-
+  user,
+  category,
+  questions,
+  answers,
+  feedback,
+  score,
+});
     res.status(201).json(interview);
   } catch (error) {
     res.status(500).json({

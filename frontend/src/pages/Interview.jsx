@@ -2,30 +2,64 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { saveInterview } from "../services/interviewService";
 import { generateQuestions } from "../services/aiService";
+import {
+  evaluateInterview,
+} from "../services/evaluationService";
 function Interview() {
   const [searchParams] = useSearchParams();
+  const [feedback, setFeedback] =
+  useState("");
 
   const category =
     searchParams.get("category");
 const [answers, setAnswers] = useState([]);
- 
+const [loading, setLoading] = useState(false);
+ const [score, setScore] =
+  useState(0);
   const handleAnswerChange = (index, value) => {
   const updatedAnswers = [...answers];
   updatedAnswers[index] = value;
   setAnswers(updatedAnswers);
 };
+
 const submitInterview = async () => {
   try {
+    setLoading(true);
+
     const userInfo = JSON.parse(
       localStorage.getItem("userInfo")
     );
+
+    const result =
+      await evaluateInterview(
+        questions,
+        answers
+      );
+
+    setFeedback(result);
+
+    let extractedScore = 0;
+
+    const match =
+      result.match(/(\d+)\/100/);
+
+    if (match) {
+      extractedScore =
+        Number(match[1]);
+
+      setScore(extractedScore);
+    }
 
     await saveInterview({
       user: userInfo._id,
       category,
       questions,
       answers,
+      feedback: result,
+      score: extractedScore,
     });
+
+    setLoading(false);
 
     alert(
       "Interview saved successfully!"
@@ -33,7 +67,11 @@ const submitInterview = async () => {
   } catch (error) {
     console.error(error);
 
-    alert("Failed to save interview");
+    setLoading(false);
+
+    alert(
+      "Failed to save interview"
+    );
   }
 };
 
@@ -93,6 +131,19 @@ console.log("Result:", result);
        <button onClick={submitInterview}>
   Submit Interview
 </button>
+{loading && (
+  <p>Evaluating answers... Please wait.</p>
+)}
+{feedback && (
+  <div>
+    <h2>AI Feedback</h2>
+
+    <pre>
+      {feedback}
+    </pre>
+  </div>
+)}
+
     </div>
    
   );
