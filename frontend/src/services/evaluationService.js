@@ -3,7 +3,7 @@ import axios from "axios";
 export const evaluateInterview =
   async (questions, answers) => {
     const { data } = await axios.post(
-      "http://localhost:5000/api/evaluation/evaluate",
+      "http://ai-interview-prep-bce9.onrender.com/api/evaluation/evaluate",
       {
         questions,
         answers,

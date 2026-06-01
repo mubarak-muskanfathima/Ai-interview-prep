@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:5000/api/interviews";
+  "http://ai-interview-prep-bce9.onrender.com/api/interviews";
 
 export const saveInterview = async (
   interviewData

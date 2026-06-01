@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:5000/api/ai";
+  "http://ai-interview-prep-bce9.onrender.com/api/ai";
 
 export const generateQuestions =
   async (category) => {
